@@ -5,7 +5,21 @@
 Usage looks something like:
 
 ``` zig
+const std = @import("std");
+const zbackoff = @import("zbackoff");
+
+fn funcThatCanFail() !u64 {
+  _ = try std.time.Instant.now();
+  return 1;
+}
+
 pub fn main() void {
-  // TBD
+  var bo = zbackoff.Backoff{};
+  for (0..3) |_| {
+    const ret = funcThatCanFail();
+    if (ret != 0) {
+      std.time.sleep(bo.pause());
+    }
+  }
 }
 ```
