@@ -4,7 +4,7 @@
 
 const std = @import("std");
 
-const Backoff = struct {
+pub const Backoff = struct {
     /// The initial value of the retry period in ns, defaults to 1s.
     initial: u64 = 1e9,
 
