@@ -2,7 +2,7 @@
 
 **Backoff** implements jittered backoff. The implementation is based on https://www.awsarchitectureblog.com/2015/03/backoff.html.
 
-Usage looks something like:
+You can use it like so:
 
 ``` zig
 const std = @import("std");
