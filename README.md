@@ -2,7 +2,7 @@
 
 **Backoff** implements jittered backoff. The implementation is based on https://www.awsarchitectureblog.com/2015/03/backoff.html.
 
-## How to use
+Usage looks something like:
 
 ``` zig
 pub fn main() void {
