@@ -6,13 +6,13 @@ pub fn build(b: *std.Build) void {
 
     const lib = b.addStaticLibrary(.{
         .name = "zbackoff",
-        .root_source_file = b.path("src/root.zig"),
+        .root_source_file = b.path("src/zbackoff.zig"),
         .target = target,
         .optimize = optimize,
     });
 
     _ = b.addModule("zbackoff", .{
-        .root_source_file = b.path("src/root.zig"),
+        .root_source_file = b.path("src/zbackoff.zig"),
         .target = target,
         .optimize = optimize,
     });
