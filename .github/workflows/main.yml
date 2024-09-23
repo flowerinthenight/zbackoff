@@ -10,13 +10,10 @@ jobs:
   test:
     name: Build
     if: "!contains(github.event.commits[0].message, 'ci skip')"
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{matrix.os}}
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: actions/checkout@v4
+      - uses: mlugg/setup-zig@v1
         with:
           version: 0.13.0
       - run: zig test src/zbackoff.zig
