@@ -8,7 +8,7 @@ You can use it like so:
 const std = @import("std");
 const zbackoff = @import("zbackoff");
 
-fn funcThatFails() !u64 {
+fn funcThatCanFail() !u64 {
     _ = try std.time.Instant.now();
     std.debug.print("funcThatFails()\n", .{});
     return error.UnwantedResult1;
@@ -17,7 +17,7 @@ fn funcThatFails() !u64 {
 pub fn main() void {
     var bo = zbackoff.Backoff{};
     for (0..3) |_| {
-        const result = funcThatFails() catch {
+        const result = funcThatCanFail() catch {
             std.time.sleep(bo.pause());
             continue;
         };
