@@ -1,6 +1,6 @@
 .{
     .name = "zbackoff",
-    .version = "0.0.0",
+    .version = "0.1.2",
     .dependencies = .{},
     .paths = .{
         "build.zig",
