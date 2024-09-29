@@ -6,23 +6,23 @@ const std = @import("std");
 
 pub const Backoff = struct {
     /// The initial value of the retry period in ns, defaults to 1s.
-    initial: u64 = 1e9,
+    initial: u64 = std.time.ns_per_s,
 
     /// The max value of the retry period in ns, defaults to 30s.
-    max: u64 = 30 * 1e9,
+    max: u64 = std.time.ns_per_s * 30,
 
-    /// The factor by which the retry period increases. It should be greater than 1, defaults to 2.
+    /// The factor by which the retry period increases. Should be > 1, defaults to 2.
     multiplier: f64 = 2.0,
 
-    last: u64 = 1e9, // internal, current retry period
+    last: u64 = std.time.ns_per_s, // internal, current retry period
     iter: u64 = 0,
     const Self = @This();
 
     /// Returns the next nanosecond duration that the caller should use to backoff.
     pub fn pause(self: *Self) u64 {
         self.iter = self.iter + 1;
-        if (self.initial == 0) self.initial = 1e9;
-        if (self.max == 0) self.max = 30 * 1e9;
+        if (self.initial == 0) self.initial = std.time.ns_per_s;
+        if (self.max == 0) self.max = std.time.ns_per_s * 30;
         if (self.multiplier < 1.0) self.multiplier = 2.0;
 
         if (self.iter == 1) return self.initial;
@@ -38,3 +38,9 @@ pub const Backoff = struct {
         return self.last;
     }
 };
+
+test "simple" {
+    var bo = Backoff{};
+    const pause = bo.pause();
+    try std.testing.expect(pause > 0 and pause <= std.time.ns_per_s * 30);
+}
