@@ -3,10 +3,28 @@ name: main
 on:
   push:
     branches: [ "main" ]
+    tags:
+      - '*'
   pull_request:
     branches: [ "main" ]
 
 jobs:
+  codeberg:
+    name: Codeberg
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mirror to Codeberg
+        uses: yesolutions/mirror-action@master
+        with:
+          REMOTE: "https://codeberg.org/flowerinthenight/zbackoff.git"
+          GIT_USERNAME: flowerinthenight
+          GIT_PASSWORD: ${{ secrets.GIT_PASSWORD }}
+
   test:
     name: Build
     if: "!contains(github.event.commits[0].message, 'ci skip')"
