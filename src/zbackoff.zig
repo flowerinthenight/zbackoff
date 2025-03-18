@@ -31,7 +31,7 @@ pub const Backoff = struct {
         const mu = @as(u64, @intFromFloat(mf));
 
         const seed = std.crypto.random.int(u64);
-        var prng = std.rand.DefaultPrng.init(seed);
+        var prng = std.Random.DefaultPrng.init(seed);
         const random = prng.random();
         const rval = 1 + random.uintAtMost(u64, mu);
         self.last = @min(self.max, rval);
